@@ -1,0 +1,22 @@
+#!/bin/bash
+# SessionStart hook - injects the using-skills guide into every session
+
+SKILL_FILE="${CLAUDE_PLUGIN_ROOT}/skills/using-skills/SKILL.md"
+
+if [ ! -f "$SKILL_FILE" ]; then
+  echo "Warning: using-skills SKILL.md not found at $SKILL_FILE" >&2
+  exit 0
+fi
+
+# Read SKILL.md content (skip frontmatter)
+CONTENT=$(sed '1{/^---$/d}' "$SKILL_FILE" | sed '1,/^---$/d')
+
+# Detect platform and output appropriately
+if [ -n "$CLAUDE_CODE" ] || [ -n "$CLAUDE_PLUGIN_ROOT" ]; then
+  # Claude Code - output as system reminder
+  cat <<EOF
+{"hookResponse": {"additionalContext": "<EXTREMELY_IMPORTANT>\nYou have lyczos-skills installed.\n\n**Below is the full content of your 'lyczos-skills:using-skills' skill - your introduction to using skills. For all other skills, use the 'Skill' tool:**\n\n---\n${CONTENT}\n</EXTREMELY_IMPORTANT>"}}
+EOF
+else
+  echo "$CONTENT"
+fi

@@ -1,0 +1,10 @@
+{
+  "name": "lyczos-skills",
+  "description": "Personal AI skills library: productivity workflows, document handling, form filling, coding patterns, and everyday task automation",
+  "version": "0.1.0",
+  "author": {
+    "name": "lyczos"
+  },
+  "license": "MIT",
+  "keywords": ["skills", "productivity", "workflows", "forms", "automation", "coding"]
+}
